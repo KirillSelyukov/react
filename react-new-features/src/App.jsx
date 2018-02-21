@@ -30,15 +30,23 @@ class App extends Component {
         <UserInput changed={this.onChangeHandler} username={this.state.username} ></UserInput>
         {this.state.showUserOutput
           ?
-          <div>
-            <UserOutput userName={this.state.username}></UserOutput>
-            <UserOutput userName='Scaevola'></UserOutput>
-          </div>
+          <UserOutputs username = {this.state.username}/>
+
           : null
         }
       </div>
     );
   }
+
+}
+
+const UserOutputs = (props) => {
+  return (
+    <div>
+      <UserOutput userName={props.username}></UserOutput>
+      <UserOutput userName='Scaevola'></UserOutput>
+    </div>
+  );
 }
 
 export default App;
