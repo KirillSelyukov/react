@@ -6,6 +6,7 @@ import { UserOutput } from '../src/UserOutput/UserOutput'
 
 class App extends Component {
   state = {
+    persons: [{ name: 'max', age: 28 }, { name: 'Angela', age: 18 }],
     username: 'Musius Scaevola',
     showUserOutput: false
   }
@@ -22,31 +23,26 @@ class App extends Component {
       showUserOutput: !this.state.showUserOutput
     })
   }
+  showPersons = () => {
+    return this.state.showUserOutput
+      ?
+      this.state.persons.map((person) => {
+        return <UserOutput userName={person.name} age={person.age} />
+      })
+      : null;
+  }
 
   render() {
     return (
       <div>
         <button onClick={this.toggleOutputhandler}>Show Output</button>
         <UserInput changed={this.onChangeHandler} username={this.state.username} ></UserInput>
-        {this.state.showUserOutput
-          ?
-          <UserOutputs username = {this.state.username}/>
 
-          : null
-        }
+        {this.showPersons()}
+
       </div>
     );
   }
-
-}
-
-const UserOutputs = (props) => {
-  return (
-    <div>
-      <UserOutput userName={props.username}></UserOutput>
-      <UserOutput userName='Scaevola'></UserOutput>
-    </div>
-  );
 }
 
 export default App;
