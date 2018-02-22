@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { UserInput } from '../src/UserInput/UserInput'
-import { UserOutput } from '../src/UserOutput/UserOutput'
+import { Person } from '../src/Person/Person'
 
 class App extends Component {
   state = {
@@ -27,19 +25,28 @@ class App extends Component {
     return this.state.showUserOutput
       ?
       this.state.persons.map((person) => {
-        return <UserOutput userName={person.name} age={person.age} />
+        return <Person userName={person.name} age={person.age} />
       })
       : null;
   }
 
   render() {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    };
+
     return (
-      <div>
-        <button onClick={this.toggleOutputhandler}>Show Output</button>
-        <UserInput changed={this.onChangeHandler} username={this.state.username} ></UserInput>
-
-        {this.showPersons()}
-
+      <div className='App'>
+        <h1>Hi I'm React App</h1>
+        <p>Push the Button</p>
+        <button style={style} onClick={this.toggleOutputhandler}>Show Output</button>
+        <div>
+          {this.showPersons()}
+        </div>
       </div>
     );
   }
