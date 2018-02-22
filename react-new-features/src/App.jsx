@@ -4,28 +4,34 @@ import { Person } from '../src/Person/Person'
 
 class App extends Component {
   state = {
-    persons: [{ name: 'max', age: 28 }, { name: 'Angela', age: 18 }],
-    username: 'Musius Scaevola',
-    showUserOutput: false
-  }
-
-  onChangeHandler = (event) => {
-    this.setState({
-      username: event.target.value
-    });
+    persons: [
+      { name: 'max', age: 28 },
+      { name: 'Angela', age: 18 }
+    ],
+    showPersons: false
   }
 
   toggleOutputhandler = () => {
-    console.log(this.state.showUserOutput);
+    console.log(this.state.showPersons);
     this.setState({
-      showUserOutput: !this.state.showUserOutput
+      showPersons: !this.state.showPersons
     })
   }
+  deletePersonHandler = (personIndex) => {
+    const persons = this.state.persons;
+    persons.splice(personIndex, 1);
+    this.setState({ persons: persons });
+  }
+
   showPersons = () => {
-    return this.state.showUserOutput
+    return this.state.showPersons
       ?
-      this.state.persons.map((person) => {
-        return <Person userName={person.name} age={person.age} />
+      this.state.persons.map((person, index) => {
+        return <Person
+          key={index}
+          userName={person.name}
+          age={person.age}
+          click={() => this.deletePersonHandler(index)} />
       })
       : null;
   }
@@ -43,7 +49,7 @@ class App extends Component {
       <div className='App'>
         <h1>Hi I'm React App</h1>
         <p>Push the Button</p>
-        <button style={style} onClick={this.toggleOutputhandler}>Show Output</button>
+        <button style={style} onClick={this.toggleOutputhandler}>Show Persons</button>
         <div>
           {this.showPersons()}
         </div>
