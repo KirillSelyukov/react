@@ -5,14 +5,14 @@ import { Person } from '../src/Person/Person'
 class App extends Component {
   state = {
     persons: [
-      { name: 'max', age: 28 },
-      { name: 'Angela', age: 18 }
+      { id: '123d', name: 'Maxx', age: 28 },
+      { id: '34fv', name: 'Maxx', age: 28 },
+      { id: 'dsfg', name: 'Angela', age: 18 }
     ],
     showPersons: false
   }
 
   toggleOutputhandler = () => {
-    console.log(this.state.showPersons);
     this.setState({
       showPersons: !this.state.showPersons
     })
@@ -28,7 +28,7 @@ class App extends Component {
       ?
       this.state.persons.map((person, index) => {
         return <Person
-          key={index}
+          key={person.id}
           userName={person.name}
           age={person.age}
           click={() => this.deletePersonHandler(index)} />
