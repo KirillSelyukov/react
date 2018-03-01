@@ -14,7 +14,7 @@ class App extends Component {
     });
   }
 
-  removeChar = (index) => {
+  deleteCharhandler = (index) => {
     let chars = [...this.state.input];
     chars.splice(index, 1);
     this.setState({ input: chars.join('') })
@@ -26,7 +26,7 @@ class App extends Component {
         <input onChange={this.onChangeHandler} value={this.state.input} />
         <p>Length of input: {this.state.input.length}</p>
         <ValidateInputLength length={this.state.input.length} />
-        <Chars input={this.state.input} click={this.removeChar} />
+        <Chars input={this.state.input} click={this.deleteCharhandler} />
       </div>
     );
   }
