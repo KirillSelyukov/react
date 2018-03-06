@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Radium from 'radium';
-import { Person } from '../components/Persons/Person'
+import { Persons } from '../components/Persons';
+import { Cockpit } from '../components/Cockpit';
 
 class App extends Component {
   state = {
@@ -26,50 +26,25 @@ class App extends Component {
     this.setState({ persons: persons });
   }
 
+
+
   render() {
-    const style = {
-      backgroundColor: 'green',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    };
-
-    const showPersons = () => {
-      if (this.state.showPersons) {
-        style.backgroundColor = 'red';
-        style[':hover'] = {
-          backgroundColor: 'salmon',
-          color: 'white'
-        }
-        return this.state.persons.map((person, index) =>
-
-          <Person
-            key={person.id}
-            userName={person.name}
-            age={person.age}
-            click={() => this.deletePersonHandler(index)} />
-        )
-      }
-
-      return null;
+    let persons = null;
+    if (this.state.showPersons) {
+      persons = <Persons
+        persons={this.state.persons}
+        clicked={this.deletePersonHandler} />
     }
 
     return (
       <div className='App'>
-        <h1>Hi I'm React App</h1>
-        <p>Push the Button</p>
-        <button style={style} onClick={this.toggleOutputHandler}>Show Persons</button>
-        <div>
-          {showPersons()}
-        </div>
+        <Cockpit
+          clicked={this.toggleOutputHandler}
+          showPersons={this.state.showPersons} />
+        {persons}
       </div>
     );
   }
 }
 
-export default Radium(App);
+export default App;
