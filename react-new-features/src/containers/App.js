@@ -11,7 +11,7 @@ class App extends Component {
       { id: 'dsfg', name: 'Angela', age: 18 }
     ],
     showPersons: false
-  }
+  };
 
   toggleOutputHandler = () => {
     this.setState({
@@ -25,8 +25,6 @@ class App extends Component {
     persons.splice(personIndex, 1);
     this.setState({ persons: persons });
   }
-
-
 
   render() {
     let persons = null;
