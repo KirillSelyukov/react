@@ -37,12 +37,16 @@ class App extends Component {
       { id: '34fv', name: 'Maxx', age: 28 },
       { id: 'dsfg', name: 'Angela', age: 18 }
     ],
-    showPersons: false
+    showPersons: false,
+    toggled: 0,
   };
 
   toggleOutputHandler = () => {
-    this.setState({
-      showPersons: !this.state.showPersons
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !prevState.showPersons,
+        toggled: prevState.toggled + 1,
+      }
     })
   }
 
