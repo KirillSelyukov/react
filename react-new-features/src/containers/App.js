@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { Persons } from '../components/Persons';
 import { Cockpit } from '../components/Cockpit';
+import { withClass, Aux } from '../hoc';
 
 class App extends Component {
   constructor(props) {
@@ -63,14 +64,14 @@ class App extends Component {
     }
 
     return (
-      <div className='App'>
+      <Aux>
         <Cockpit
           clicked={this.toggleOutputHandler}
           showPersons={this.state.showPersons} />
         {persons}
-      </div>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default withClass('App', App);
