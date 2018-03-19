@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { NavLink } from 'react-router-dom';
 import './Courses.css';
 
 class Courses extends Component {
@@ -11,15 +11,19 @@ class Courses extends Component {
         ]
     }
 
-    render () {
+    render() {
         return (
             <div>
                 <h1>Amazing Udemy Courses</h1>
                 <section className="Courses">
                     {
-                        this.state.courses.map( course => {
-                            return <article className="Course" key={course.id}>{course.title}</article>;
-                        } )
+                        this.state.courses.map(course => {
+                            return (
+                                <NavLink to='/Course'>
+                                    <article className="Course" key={course.id}>{course.title}</article>
+                                </NavLink>
+                            )
+                        })
                     }
                 </section>
             </div>
