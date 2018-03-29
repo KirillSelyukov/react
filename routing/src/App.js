@@ -20,12 +20,12 @@ class App extends Component {
             <li>Add a 404 error page and render it for any unknown routes</li>
             <li>Redirect requests to /all-courses to /courses (=> Your "Courses" page)</li>
           </ol>
-          <NavLink style={{ 'padding': '10px' }} to='/Cources'>Cources</NavLink>
+          <NavLink style={{ 'padding': '10px' }} to='/Courses'>Courses</NavLink>
           <NavLink style={{ 'padding': '10px' }} to='/Users'>Users</NavLink>
 
-          <Route path='/Cources' component={Courses} />
+          <Route path='/Courses' component={Courses} />
           <Route path='/Users' component={Users} />
-          <Route path='/Course/:id' component={Course} />
+          <Route path='/Courses/:id' component={Course} />
         </div>
       </BrowserRouter>
     );
