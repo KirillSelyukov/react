@@ -32,8 +32,16 @@ const reducer = (state = initialState, action) => {
         };
     }
     if (action.type === 'DELETE_RESULT') {
-        console.log('In STORE_RESULT')
-        return state;
+        console.log('In DELETE_RESULT')
+
+        // const newResults = [...state.results];
+        // newResults.splice(id,1);
+
+        const newResult = state.results.filter(el => el.id !== action.id);
+        return {
+            ...state,
+            results: newResult
+        };
     }
 
     return state;
