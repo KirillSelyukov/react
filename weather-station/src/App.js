@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
-import Chart from './components/Chart/Chart';
+import Charts from './components/Charts/Charts';
 
 class App extends Component {
   state = {
@@ -47,11 +47,9 @@ class App extends Component {
   render() {
     let chart = null;
     if (this.state.initialized) {
-      const data = this.state.stations[this.state.name].points.map((point) => {
-        return { name: point, value: point };
-      });
-      chart = <Chart data={data} />;
+      chart = <Charts names={this.state.names} stations={this.state.stations} />;
     }
+
     return (
       <div className="App">
         {chart}
