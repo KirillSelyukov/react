@@ -7,37 +7,47 @@ class App extends Component {
   state = {
     clientKey: null,
     time: null,
-    stations: []
+    stations: [],
+    name: 'Delta',
+    names: null,
+    initialized: false
   };
 
   componentDidMount = () => {
     const data = axios.get('http://localhost:8080/api/v1/init');
     data.then(({ data }) => {
       const { clientKey, time, stations } = data;
-      this.setState({ clientKey: clientKey, time: time, stations: stations });
+      this.setState({ clientKey: clientKey, time: time, stations: stations, name: Object.keys(stations)[0], names: Object.keys(stations), initialized: true });
+
+      this.getDelta();
     }, function (err) {
       console.log(err);
     })
   }
 
-  componentDidUpdate() {
-    const data = axios.get(`http://localhost:8080/api/v1/client/${this.state.clientKey}/delta/Delta/since/${this.state.time}`);
+  getDelta = () => {
+    setInterval(() => {
+      if (this.state.initialized) {
+        const data = axios.get(`http://localhost:8080/api/v1/client/${this.state.clientKey}/delta/${this.state.name}/since/${this.state.time}`);
+        data.then((res) => {
 
-    data.then((res) => {
-      console.log(res.data);
-      let newPoints = [...this.state.stations['Delta'].points, ...res.data.delta];
-      console.log(newPoints)
-      this.setState({time:data.time })
-    }, (err) => {
-      console.log(err);
-    })
+          let newPoints = [...this.state.stations[this.state.name].points, ...res.data.delta].slice(-100);
+
+          const newStations = { ...this.state.stations };
+          newStations[this.state.name] = { ...this.state.stations[this.state.name] }
+          newStations[this.state.name].points = newPoints;
+          this.setState({ time: data.time, stations: newStations })
+        }, (err) => {
+          console.log(err);
+        })
+      }
+    }, 4000)
   }
 
   render() {
     let chart = null;
-
-    if (typeof this.state.stations['Delta'] !== 'undefined' && this.state.stations['Delta'].points !== undefined) {
-      const data = this.state.stations['Delta'].points.map((point) => {
+    if (this.state.initialized) {
+      const data = this.state.stations[this.state.name].points.map((point) => {
         return { name: point, value: point };
       });
       chart = <Chart data={data} />;
