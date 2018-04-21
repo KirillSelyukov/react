@@ -5,6 +5,20 @@ let lastCallTime = null;
 
 initialize();
 
+function initialize(endpoint) {
+    state = axios.get('http://localhost:8080/api/v1/init').catch(console.log);
+}
+
+function getDelta(name) {
+    return state.then(({ data }) => {
+        const time = lastCallTime == null ? data.time : lastCallTime;
+        return axios.get(`http://localhost:8080/api/v1/client/${data.clientKey}/delta/${name}/since/${time}`);
+    });
+}
+
+function trackError(error){
+    console.log(err)
+}
 
 export function mergeDelta(points, delta) {
     return [...points, ...delta].slice(delta.length);
@@ -17,15 +31,8 @@ export function subscribeOnStationDelta(name, callback) {
                 lastCallTime = data.time;
                 callback(data);
             }
-        },(err)=>console.log(err))
+        },trackError)
     }, 100);
-}
-
-function getDelta(name) {
-    return state.then(({ data }) => {
-        const time = lastCallTime == null ? data.time : lastCallTime;
-        return axios.get(`http://localhost:8080/api/v1/client/${data.clientKey}/delta/${name}/since/${time}`);
-    });
 }
 
 export function unsubscribeOnStationDelta(number) {
@@ -44,6 +51,4 @@ export function getStationInitialData(name) {
     });
 }
 
-function initialize(endpoint) {
-    state = axios.get('http://localhost:8080/api/v1/init').catch(console.log);
-}
+
