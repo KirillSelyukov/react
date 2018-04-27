@@ -5,19 +5,20 @@ let lastCallTime = null;
 
 initialize();
 
-function initialize(endpoint) {
-    state = axios.get('http://localhost:8080/api/v1/init').catch(console.log);
+function initialize() {
+    state = axios.get('http://localhost:3333/api/v1/init').catch((e) => 'Error on initialize');
 }
 
 function getDelta(name) {
     return state.then(({ data }) => {
         const time = lastCallTime == null ? data.time : lastCallTime;
-        return axios.get(`http://localhost:8080/api/v1/client/${data.clientKey}/delta/${name}/since/${time}`);
+        const delta = axios.get(`http://localhost:3333/api/v1/client/${data.clientKey}/delta/${name}/since/${time}`);
+        return delta;
     });
 }
 
-function trackError(error){
-    console.log(err)
+function trackError(error) {
+    console.log('some error during  delta recieving')
 }
 
 export function mergeDelta(points, delta) {
@@ -26,12 +27,16 @@ export function mergeDelta(points, delta) {
 
 export function subscribeOnStationDelta(name, callback) {
     return setInterval(() => {
-        getDelta(name).then(({ data }) => {
-            if (!data.error) {
-                lastCallTime = data.time;
-                callback(data);
-            }
-        },trackError)
+        getDelta(name)
+            .then(resp => {
+                if (!resp) {
+                    console.log('ingetDelta:there is no resp')
+                }
+                if (!resp.data.error) {
+                    lastCallTime = resp.data.time;
+                    callback(resp.data);
+                }
+            }, trackError);
     }, 100);
 }
 
@@ -50,5 +55,3 @@ export function getStationInitialData(name) {
         return { points: data.stations[name].points, enabled: data.stations[name].enabled };
     });
 }
-
-
